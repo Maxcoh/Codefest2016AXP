@@ -115,7 +115,8 @@ public class MapsActivity extends FragmentActivity {
             Object thing = coords2[i];
             String[] l = (String[]) thing;
             mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(l[0]), Double.parseDouble(l[1]))
-            ).title(rainCheck.hashMap.get(thing)));
+            ).title(rainCheck.hashMap.get(thing)).icon(BitmapDescriptorFactory
+                    .fromResource(R.drawable.rain_check)));
         }
 
         try {
@@ -124,12 +125,13 @@ public class MapsActivity extends FragmentActivity {
             e.printStackTrace();
         }
 
-        Object[] coords3 = rainCheck.hashMap.keySet().toArray();
+        Object[] coords3 = waterInfrastructure.hashMap.keySet().toArray();
         for(int i = 0; i < 30; i++) {
             Object thing = coords3[i];
             String[] l = (String[]) thing;
             mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(l[0]), Double.parseDouble(l[1]))
-            ).title(rainCheck.hashMap.get(thing)));
+            ).title(rainCheck.hashMap.get(thing)).icon(BitmapDescriptorFactory
+                    .fromResource(R.drawable.water_project)));
         }
 
 
