@@ -5,6 +5,7 @@
 ##### Jason Gallagher
 ##### Brendan Barnes
 ##### Dan Panifili
+##### Ethan Koltz
 ##### Nick Pingree
 ######All team members are currently studying at Drexel University in Philadelphia, PA
 <br/>

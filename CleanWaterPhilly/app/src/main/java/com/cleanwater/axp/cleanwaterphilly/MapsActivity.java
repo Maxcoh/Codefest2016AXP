@@ -127,7 +127,7 @@ public class MapsActivity extends FragmentActivity {
         String rainAmt = openWeather.getRain();
 
         Button textView = ((Button) findViewById(R.id.humidity));
-        textView.setText("Humidity: " + "27%" + "\nRain Amt: " + rainAmt);
+        textView.setText("Humidity: " + "95%" + "\nRain Amt: " + rainAmt);
 
         VisibleRegion vr = mMap.getProjection().getVisibleRegion();
         double left = vr.latLngBounds.southwest.longitude;
