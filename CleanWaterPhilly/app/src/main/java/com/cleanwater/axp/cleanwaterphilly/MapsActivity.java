@@ -90,7 +90,7 @@ public class MapsActivity extends FragmentActivity {
 
         RainBarrel rainBarrel = new RainBarrel();
         try {
-            rainBarrel.getBarrelCoordinates(rainBarrel.getBarrelCsv(assetManager));
+            rainBarrel.getBarrelCsv(assetManager);
         } catch (IOException e) {
             Log.d("tag", "Oh shit");
         }
@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity {
             LatLong l = (LatLong) thing;
             Log.d("tag", ((LatLong) thing).getLat() + "");
             mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLat(), l.getLon())
-            ).title("Marker"));
+            ).title(rainBarrel.hashMap.get(thing)));
         }
     }
 }

@@ -26,7 +26,7 @@ public class RainBarrel {
 
     }
 
-    public static String[][] getBarrelCsv(AssetManager assetManager) throws IOException{
+    public static void getBarrelCsv(AssetManager assetManager) throws IOException{
         /**
          * Rain Barrel Columns:
          * 0 = X
@@ -49,62 +49,9 @@ public class RainBarrel {
         String line = null;
         while ((line = br.readLine()) != null) {
             String[] values = line.split(",");
-            for (String str : values) {
-                //System.out.println(str);
-                // as i goes up put data into cells. Reset i to 0 on final case and incremement the row.
-                switch (i) {
-                    case 0: RainBarrel[row][i] = str;
-                        i++;
-                        break;
-                    case 1: RainBarrel[row][i] = str;
-                        i++;
-                        break;
-                    case 2: RainBarrel[row][i] = str;
-                        i++;
-                        break;
-                    case 3: RainBarrel[row][i] = str;
-                        i++;
-                        break;
-                    case 4: RainBarrel[row][i] = str;
-                        i++;
-                        break;
-                    case 5: RainBarrel[row][i] = str;
-                        i++;
-                        break;
-                    case 6: RainBarrel[row][i] = str;
-                        i++;
-                        break;
-                    case 7: RainBarrel[row][i] = str;
-                        i=0;
-                        row++;
-                        break;
-                }
-            }
-
+            LatLong l = new LatLong(Double.parseDouble(values[6]), Double.parseDouble(values[7]));
+            hashMap.put(l, values[4]);
         }
-        br.close();
-        return RainBarrel;
-    }
-    public static String[][] getBarrelCoordinates(String[][] RainBarrel){
-        String[][] RainBarrelCoordinates = new String[100][2];
-        int i=0;
-        for (int row = 0; row < RainBarrel.length; row++) {
-            double lat =0;
-            for (int column = 6; column < RainBarrel[row].length; column++) {
-                RainBarrelCoordinates[row][i] = RainBarrel[row][column];
-                if(column == 6) {
-                    lat = Double.parseDouble(RainBarrel[row][column]);
-                } else {
-                    LatLong l = new LatLong(lat, Double.parseDouble(RainBarrel[row][column]));
-                    hashMap.put(l, RainBarrel[row][4]);
-                    lat = 0;
-                }
-                i++;
-                if(i == 2){
-                    i=0;
-                }
-            }}
-        return RainBarrelCoordinates;
 
     }
 
