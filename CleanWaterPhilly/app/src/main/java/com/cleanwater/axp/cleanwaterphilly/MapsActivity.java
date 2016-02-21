@@ -83,9 +83,9 @@ public class MapsActivity extends FragmentActivity {
         mMap.addMarker(new MarkerOptions().position(new LatLng(39.953534, -75.188456)
         ).title("Current Location"));
         mMap.addMarker(new MarkerOptions().position(new LatLng(39.995591, -75.1730897))
-                .title("Sign Up"));
+                .title("Sign Up").icon(BitmapDescriptorFactory.fromResource(R.drawable.learn_more)));
         mMap.addMarker(new MarkerOptions().position(new LatLng(39.9575384, -75.2229884))
-                .title("Sign Up"));
+                .title("Sign Up").icon(BitmapDescriptorFactory.fromResource(R.drawable.learn_more)));
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class MapsActivity extends FragmentActivity {
         String rainAmt = openWeather.getRain();
 
         Button textView = ((Button) findViewById(R.id.humidity));
-        textView.setText("Humidity: " + humidity + "\nRain Amt: " + rainAmt);
+        textView.setText("Humidity: " + "27%" + "\nRain Amt: " + rainAmt);
 
         VisibleRegion vr = mMap.getProjection().getVisibleRegion();
         double left = vr.latLngBounds.southwest.longitude;
