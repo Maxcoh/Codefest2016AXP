@@ -1,6 +1,12 @@
 #AquiPhilly<br/>
 ###Purification, Conservation, Beutification<br/>
 #### # PhillyCodefest2016AXP
+####The team:
+##### Jason Gallagher
+##### Brendan Barnes
+##### Dan Panifili
+##### Nick Pingree
+######All team members are currently studying at Drexel University in Philadelphia, PA
 <br/>
 ####What is it?
 AquiPhilly is an Android application that allows the community members to find rain water reserves in the local Philadelphia area.
