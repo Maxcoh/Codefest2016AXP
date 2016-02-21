@@ -9,15 +9,18 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
@@ -62,13 +65,7 @@ public class MapsActivity extends FragmentActivity {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            info = ((Button) findViewById(R.id.info));
-            info.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://www.phillywatersheds.org/residents"));
-                    startActivity(browserIntent);
-                }});
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -84,9 +81,49 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(39.953534, -75.188456)
-        ).title("Marker"));
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(
+        ).title("Current Location"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(39.995591, -75.1730897))
+                .title("Sign Up"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(39.9575384, -75.2229884))
+                .title("Sign Up"));
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                final String description = marker.getTitle();
+                if (description.equals("Sign Up")) {
+
+                  Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+                          .parse("http://www.phillywatersheds.org/whats_in_it_for_you/residents/raincheck/signup"));
+                            startActivity(intent);
+                } else if(marker.getSnippet().equals("Rain Barrel")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+                            .parse("http://www.phillywatersheds.org/whats_in_it_for_you/residents/raincheck/rain-barrel"));
+                    startActivity(intent);
+                } else if(marker.getSnippet().equals("Water Infrastructure")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+                            .parse("http://www.phillywatersheds.org/what_were_doing"));
+                    startActivity(intent);
+                } else if(marker.getSnippet().equals("Rain Check")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+                            .parse("http://www.phillywatersheds.org/whats_in_it_for_you/residents/raincheck"));
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+           mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(
                 new LatLng(39.953534, -75.188456), 14.0f) );
+
+        OpenWeather openWeather = new OpenWeather();
+        openWeather.queryWeatherByGeoCoordinates("39.953534", "-75.188456");
+
+        String humidity = openWeather.getHumidity();
+        String rainAmt = openWeather.getRain();
+
+        Button textView = ((Button) findViewById(R.id.humidity));
+        textView.setText("Humidity: " + humidity + "\nRain Amt: " + rainAmt);
 
         VisibleRegion vr = mMap.getProjection().getVisibleRegion();
         double left = vr.latLngBounds.southwest.longitude;
@@ -111,7 +148,7 @@ public class MapsActivity extends FragmentActivity {
             LatLong l = (LatLong) thing;
             Log.d("tag", ((LatLong) thing).getLat() + "");
             mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLat(), l.getLon())
-            ).title(rainBarrel.hashMap.get(thing))
+            ).title(rainBarrel.hashMap.get(thing)).snippet("Rain Barrel")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.water_barrel)));
         }
 
@@ -127,7 +164,7 @@ public class MapsActivity extends FragmentActivity {
             Object thing = coords2[i];
             String[] l = (String[]) thing;
             mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(l[0]), Double.parseDouble(l[1]))
-            ).title(rainCheck.hashMap.get(thing)).icon(BitmapDescriptorFactory
+            ).title(rainCheck.hashMap.get(thing)).snippet("Rain Check").icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.rain_check)));
         }
 
@@ -142,7 +179,7 @@ public class MapsActivity extends FragmentActivity {
             Object thing = coords3[i];
             String[] l = (String[]) thing;
             mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(l[0]), Double.parseDouble(l[1]))
-            ).title(rainCheck.hashMap.get(thing)).icon(BitmapDescriptorFactory
+            ).title(waterInfrastructure.hashMap.get(thing)).snippet("Water Infrastructure").icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.water_project)));
         }
 

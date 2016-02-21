@@ -2,6 +2,7 @@ package com.cleanwater.axp.cleanwaterphilly;
 
 /**
  * Created by Nick Pingree on 2/20/16.
+ * Edited by Brendan Barnes
  */
 import android.content.res.AssetManager;
 
@@ -22,7 +23,7 @@ public class WaterInfrastructure {
     }
 
     public void run() throws IOException {
-        InputStream is = m.open("RainCheck_Installed.csv");
+        InputStream is = m.open("Green_StWater_Infrastructure.csv");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String line = null;
         while ((line = br.readLine()) != null) {
