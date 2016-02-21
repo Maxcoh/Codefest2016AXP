@@ -1,4 +1,4 @@
-package OpenWeather;
+package api;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -13,8 +13,8 @@ public class OpenWeather {
 	}
 	
 	// Instance Variables
-	private String ApiKey = "b5f23ca40514412485b51ebd8cf05b09";
-	private String Uri = "http://api.openweathermap.org/data/2.5/weather?";
+	final private String ApiKey = "b5f23ca40514412485b51ebd8cf05b09";
+	final private String Uri = "http://api.openweathermap.org/data/2.5/weather?";
 	private JsonObject jsonObj;
 	
 	// Example query: http://api.openweathermap.org/data/2.5/weather ?lat=35 &lon=139 &appid=44db6a862fba0b067b1930da0d769e98
@@ -33,7 +33,7 @@ public class OpenWeather {
 	public void setCityId(String cityId){
 		CityId = cityId;
 	}
-	public void setGeoCoordinates(String lat, String lon){
+	public void setGeocoordinates(String lat, String lon){
 		GeoCoordinates = new String[]{lat, lon};
 	}
 	public void SetZipCode(String zipCode){
@@ -74,12 +74,12 @@ public class OpenWeather {
 	}
 	
 	public void queryWeatherByGeoCoordinates(String Lat, String Lon ){
-		setGeoCoordinates(Lat,Lon);
+		setGeocoordinates(Lat,Lon);
 		queryWeatherByGeoCoordinates();
 	}
 
 	public void queryWeatherByGeoCoordinates(double Lat, double Lon ){
-		setGeoCoordinates(Double.toString(Lat), Double.toString(Lon));
+		setGeocoordinates(Double.toString(Lat), Double.toString(Lon));
 		queryWeatherByGeoCoordinates();
 	}
 	
