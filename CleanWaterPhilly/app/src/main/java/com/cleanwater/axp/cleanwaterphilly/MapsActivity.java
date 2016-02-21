@@ -96,7 +96,11 @@ public class MapsActivity extends FragmentActivity {
                   Intent intent = new Intent(Intent.ACTION_VIEW, Uri
                           .parse("http://www.phillywatersheds.org/whats_in_it_for_you/residents/raincheck/signup"));
                             startActivity(intent);
-                } else if(marker.getSnippet().equals("Rain Barrel")) {
+                } else if(description.equals("Current Location")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+                            .parse("http://m.imgur.com/wv3p6PR.jpg"));
+                    startActivity(intent);
+                }else if(marker.getSnippet().equals("Rain Barrel")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri
                             .parse("http://www.phillywatersheds.org/whats_in_it_for_you/residents/raincheck/rain-barrel"));
                     startActivity(intent);
