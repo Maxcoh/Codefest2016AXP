@@ -2,6 +2,7 @@ package com.cleanwater.axp.cleanwaterphilly;
 
 /**
  * Created by Nick Pingree on 2/20/16.
+ *  Edited by Brendan Barnes
  */
 import android.content.res.AssetManager;
 import android.graphics.Point;
@@ -21,12 +22,13 @@ import java.util.HashMap;
 
 public class RainBarrel {
     public static HashMap<LatLong, String> hashMap = new HashMap<LatLong, String>();
+    private AssetManager m;
 
-    public RainBarrel() {
-
+    public RainBarrel(AssetManager assetManager) {
+        m = assetManager;
     }
 
-    public static void getBarrelCsv(AssetManager assetManager) throws IOException{
+    public void getBarrelCsv() throws IOException{
         /**
          * Rain Barrel Columns:
          * 0 = X
@@ -39,12 +41,9 @@ public class RainBarrel {
          * 7 = Long
          */
         // Generate array sized the same as csv file
-        String[][] RainBarrel = new String[100][8];
         // I for columns, row for rows
-        int i=0;
-        int row=0;
 
-        InputStream is = assetManager.open("RainBarrel_Installed.csv");
+        InputStream is = m.open("RainBarrel_Installed.csv");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String line = null;
         while ((line = br.readLine()) != null) {

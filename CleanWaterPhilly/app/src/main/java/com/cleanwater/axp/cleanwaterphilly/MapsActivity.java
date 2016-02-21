@@ -4,6 +4,7 @@ package com.cleanwater.axp.cleanwaterphilly;
  */
 
 import android.content.res.AssetManager;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.util.Log;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
@@ -80,28 +82,56 @@ public class MapsActivity extends FragmentActivity {
         double right = vr.latLngBounds.northeast.longitude;
         double bottom = vr.latLngBounds.southwest.latitude;
 
-        AssetManager assetManager = getAssets();
+        final AssetManager assetManager = getAssets();
 
+        RainBarrel rainBarrel = new RainBarrel(assetManager);
+        RainCheckParse rainCheck = new RainCheckParse(assetManager);
+        WaterInfrastructure waterInfrastructure = new WaterInfrastructure(assetManager);
         try {
-            String[] list = assetManager.list("");
-        } catch (IOException e) {
-            Log.d("", "Fuck me");
-        }
+            rainBarrel.getBarrelCsv();
 
-        RainBarrel rainBarrel = new RainBarrel();
-        try {
-            rainBarrel.getBarrelCsv(assetManager);
         } catch (IOException e) {
-            Log.d("tag", "Oh shit");
         }
 
         Object[] coords = rainBarrel.hashMap.keySet().toArray();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 30; i++) {
             Object thing = coords[i];
             LatLong l = (LatLong) thing;
             Log.d("tag", ((LatLong) thing).getLat() + "");
             mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLat(), l.getLon())
-            ).title(rainBarrel.hashMap.get(thing)));
+            ).title(rainBarrel.hashMap.get(thing))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.water_barrel)));
         }
+
+        try {
+            rainCheck.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Object[] coords2 = rainCheck.hashMap.keySet().toArray();
+        for(int i = 0; i < 30; i++) {
+            Object thing = coords2[i];
+            String[] l = (String[]) thing;
+            mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(l[0]), Double.parseDouble(l[1]))
+            ).title(rainCheck.hashMap.get(thing)));
+        }
+
+        try {
+            waterInfrastructure.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Object[] coords3 = rainCheck.hashMap.keySet().toArray();
+        for(int i = 0; i < 30; i++) {
+            Object thing = coords3[i];
+            String[] l = (String[]) thing;
+            mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(l[0]), Double.parseDouble(l[1]))
+            ).title(rainCheck.hashMap.get(thing)));
+        }
+
+
     }
 }

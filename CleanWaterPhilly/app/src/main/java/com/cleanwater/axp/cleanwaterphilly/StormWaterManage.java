@@ -1,63 +1,38 @@
 package com.cleanwater.axp.cleanwaterphilly;
 
 /**
- * Created by brendanbarnes on 2/20/16.
+ * Created by Dan Panfili on 2/20/16.
+ *  Edited by Brendan Barnes
  */
+import android.content.res.AssetManager;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
 
 //dataOut array string: system, monthDayOfInstall, yearOfInstall, lifeCycleStatus, owner, subtype, facID, shapeArea, shapeLen
 public class StormWaterManage {
 
-    public StormWaterManage() {
+    public static HashMap<String[], String> hashMap = new HashMap<String[], String>();
+    private AssetManager m;
 
+    public StormWaterManage(AssetManager manager) {
+        m = manager;
     }
 
-    public String[][] run() {
-        String[][] dataOut = new String[1241][10];
-        String csvFile = "assets/stormWaterManage.csv";
-        BufferedReader br = null;
-        String line = "";
-        String cvsSplitBy = ",";
-
-        try {
-            br = new BufferedReader(new FileReader(csvFile));
-            int i=0;
-            while ((line = br.readLine()) != null) {
-                // use comma as separator
-                String[] data = line.split(cvsSplitBy);
-
-                //if(data.length<7){
-                //System.out.println(data[6] + " at location (" + data[5] + "), coord x=" + data[0] + " y=" + data[1]);
-                String[] toDataOut = {data[1],data[2],data[3],data[4],data[5],data[6],data[8],data[10],data[11]};
-                //System.out.println(toDataOut[0]);
-                for(int j=0; j<9; j++){
-                    dataOut[i][j] = toDataOut[j];
-                }
-                i=i+1;
-                //}
-                if(data[0]==null){break;}
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+    public void run() throws IOException {
+        InputStream is = m.open("RainCheck_Installed.csv");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(",");
+            String[] l = {values[1], values[0]};
+            hashMap.put(l, values[5]);
         }
-        for(int i=0; i<dataOut.length; i++){
-            System.out.println(dataOut[i][0] + " " + dataOut[i][1] + " " + dataOut[i][2] + " " + dataOut[i][3] + " " + dataOut[i][4] + " " + dataOut[i][5] + " " + dataOut[i][6] + " " + dataOut[i][7] + " " + dataOut[i][8]);
-        }
-        System.out.println("Done");
-        return dataOut;
     }
 
 }
